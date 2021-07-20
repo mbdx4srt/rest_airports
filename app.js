@@ -12,17 +12,30 @@ app.get("/airports", (req, res) => {
 
 app.get("/airports/:id", (req, res) => {
     id = req.params.id
-    const result = airports.find(airport => airport.icao == id);
+    const result = airports.find(airport => airport.icao === id);
     res.json(result);
 
 });
 
 app.put("/airports/:id", (req, res) => {
     id = req.params.id
-    var result = airports.find(airport => airport.icao == id);
-    result = req.body
-    console.log(result)
-    res.json(result);
+    for (var i = 0; i < airports.length; i++) {
+        if (airports[i].icao === id) {
+            airports[i] = req.body;
+            break;
+        }
+    }
+    res.sendStatus(200);
+});
+
+app.delete("/airports/:id", (req, res) => {
+    id = req.params.id
+    for (var i = 0; i < airports.length; i++) {
+        if (airports[i].icao === id) {
+            airports.splice(i,1)
+            break;
+        }
+    }
     res.sendStatus(200);
 });
 
